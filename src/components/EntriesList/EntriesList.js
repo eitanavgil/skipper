@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import Entry from "./Entry/Entry";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import Editor from "../Editor/Editor";
+
+// const styles = { modal: { width: "100%" } };
+
 
 /**
  *
@@ -16,12 +21,26 @@ class EntriesList extends Component {
         this.state = {
             show: this.props.show,
             searchValue: "",
+            selectedEntry: null,
+            modal : false,
             entries: []
         };
+        this.toggle = this.toggle.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
     }
 
-    listEntries(newSearch) {
+    toggle() {
+        this.setState({
+            show: this.props.show,
+            entries: window.entries,
+            modal : false,
+            selectedEntry: null,
+            searchValue: this.state.searchValue
+        });
+    }
+
+    listEntries() {
         window.entriesLoaded = false;
         window.entries = null;
         this.entriesInterval = setInterval(() => {
@@ -30,6 +49,8 @@ class EntriesList extends Component {
                 this.setState({
                     show: this.props.show,
                     entries: window.entries,
+                    modal : false,
+                    selectedEntry: null,
                     searchValue: this.state.searchValue
                 });
                 clearInterval(this.entriesInterval);
@@ -37,7 +58,7 @@ class EntriesList extends Component {
         }, 100);
 
         // var filter = new KalturaMediaEntryFilter();
-        var filter = { freeText: this.state.searchValue };
+        var filter = { freeText:  this.textInput.value};
         var pager = null;
         let client = window.kClient;
         window.KalturaMediaService.listAction(
@@ -48,11 +69,6 @@ class EntriesList extends Component {
                 console.log("Kaltura Error", success, results);
             } else {
                 window.entries = results.objects;
-                // this.setState({
-                //     ks: this.state.ks,
-                //     entries: window.entries,
-                //     modal: this.state.modal
-                // });
             }
         });
     }
@@ -61,12 +77,23 @@ class EntriesList extends Component {
         this.setState({
             show: this.props.show,
             entries: [],
+            modal : false,
+            selectedEntry: null,
             searchValue: this.state.searchValue
         });
     }
     handleSearch(event: Event) {
         event.preventDefault();
         this.listEntries();
+    }
+    handleEdit(entryId) {
+        this.setState({
+            show: this.state.show,
+            entries: this.state.entries,
+            searchValue: this.state.searchValue,
+            modal: !this.state.modal,
+            selectedEntry: entryId
+        });
     }
 
     render() {
@@ -86,6 +113,34 @@ class EntriesList extends Component {
         ));
         return (
             <div className={"container thumb-wrapper mt-1.5 " + showMe}>
+
+
+                <Modal
+                    isOpen={this.state.modal}
+                    toggle={this.toggle}
+                >
+                    <ModalHeader toggle={this.toggle}>
+                        Edit {}
+                    </ModalHeader>
+                    <ModalBody>
+                        <div
+                            style={{ height: 200, wordWrap: "break-word" }}
+                        >
+                            <Editor entry={this.state.selectedEntry}/>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.toggle}>
+                            Close
+                        </Button>{" "}
+                        {/*<Button color="secondary" onClick={this.toggle}>*/}
+                            {/*Cancel*/}
+                        {/*</Button>*/}
+                    </ModalFooter>
+                </Modal>
+
+
+
                 <div className="row " style={{ height: 50 }}>
                     <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-success">
                         <img

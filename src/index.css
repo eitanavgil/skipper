@@ -1,10 +1,12 @@
 body,
 html {
     height: 100%;
-    margin: 0; }
+    margin: 0;
+}
 
 .text-shadow {
-    text-shadow: 2px 2px 4px black; }
+    text-shadow: 2px 2px 4px black;
+}
 
 .bg {
     margin: 0;
@@ -14,33 +16,41 @@ html {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100vw;
-    height: 100vh; }
+    height: 100vh;
+}
 
 .semi-trans {
-    background: rgba(255, 255, 255, 0.7) !important; }
+    background: rgba(255, 255, 255, 0.7) !important;
+}
 
 .login {
     height: 350px;
-    flex-basis: auto; }
+    flex-basis: auto;
+}
 
 .container-full {
     margin: 0 auto;
     width: 100%;
-    height: 100%; }
+    height: 100%;
+}
 
 .skipper-logo {
     padding-top: 50px;
-    padding-bottom: 20px; }
+    padding-bottom: 20px;
+}
 
 .form-wrapper {
-    margin-top: 0px; }
+    margin-top: 0px;
+}
 
 .jiggle-me {
-    animation: jiggle .7s 1; }
+    animation: jiggle 0.7s 1;
+}
 
 .alternate-animation {
     -webkit-animation-direction: reverse;
-    animation-direction: reverse; }
+    animation-direction: reverse;
+}
 
 @keyframes jiggle {
     10%,
@@ -48,22 +58,50 @@ html {
     50%,
     70%,
     90% {
-        transform: translateX(5px); }
+        transform: translateX(5px);
+    }
     20%,
     40%,
     60%,
     80% {
-        transform: translateX(-5px); } }
+        transform: translateX(-5px);
+    }
+}
 
 .entries-list {
-    padding-top: 40px; }
+    padding-top: 40px;
+}
 
 .thumb-wrapper {
-    margin: 12px; }
+    margin: 12px;
+}
 
 .entry-item {
-    padding: 10px; }
+    padding: 10px;
+}
 
-.hideMe{
+.hideMe {
     display: none !important;
+}
+.modal-content {
+    width: 1200px !important;
+}
+
+.modal-dialog {
+    max-width: none;
+}
+
+.hoverme{
+    background-color: #FFDDCC;
+}
+.editIcon{
+    padding: 10px;
+}
+.editIconContainer{
+    width: 20px;
+    height: 20px;
+
+}
+.skipper{
+    border-bottom: 1px solid #EEEEEE;
 }

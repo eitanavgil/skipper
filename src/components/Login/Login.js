@@ -4,7 +4,6 @@ import { Button } from "reactstrap";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
-const styles = {};
 
 /**
  * Login screen
@@ -14,16 +13,12 @@ class Login extends Component {
         super(props);
         let now = new Date();
         let savedCookie = cookies.get("login");
-        let loginState = "loggedOut";
-
         if (savedCookie) {
-            console.log(">>>>>", "found cookie - savedCookie", savedCookie);
             //retreive cookie - -check delta from cookie date
             const delta = now.getTime() - savedCookie.loginTime / 1000; //in seconds
             if (delta < 60 * 60 * 6) {
                 //we will not try to login for 6h from last login
                 console.log(">>>>>", "cookie valid use KS ");
-                loginState = "loggedIn";
             } else {
                 console.log(">>>>>", "cookie expired -- use login page ");
             }
@@ -82,7 +77,7 @@ class Login extends Component {
         });
 
         this.ksInterval = setInterval(() => {
-            if (window.ks != undefined && this.state.ks != window.ks) {
+            if (window.ks !== undefined && this.state.ks !== window.ks) {
                 if (this.props.loginSuccess) {
                     this.props.loginSuccess();
                 }

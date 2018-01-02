@@ -38,7 +38,7 @@ class Entry extends Component {
     handleChange(event: Event) {
         event.preventDefault();
         if (this.props.onEdit) {
-            this.props.onEdit(this.props.entry.id, this.state.cuePoints);
+            this.props.onEdit(this.props.entry);
         }
     }
 
@@ -47,37 +47,47 @@ class Entry extends Component {
         let tagsJsx = <div />;
         if (tags) {
             tags = tags.split(",");
-            tagsJsx = tags.map(item => <span key={item} className="rounded border info pr-2 pt-1 pl-2 pb-1">{item}</span>);
+            tagsJsx = tags.map(item => (
+                <span
+                    key={item}
+                    className="rounded border info pr-2 pt-1 pl-2 pb-1"
+                >
+                    {item}
+                </span>
+            ));
         }
 
         return (
             <div
-                className="row w-100 semi-trans entry-item "
+                className="row w-100 semi-trans entry-item"
                 style={styles.entry}
             >
-                <div className="pull-left">
+                <div className="col bg-info">
                     <Thumb
                         entry={this.props.entry}
                         size={"medium"}
                         type={"3"}
                     />
                 </div>
-                <div className="pull-left  mr-auto">
-                    <span className="h4 text-info text-left">
-                        {this.props.entry.name}
-                    </span>
-                    <p className="h5">{this.props.entry.description}</p>
-                    <div>{tagsJsx}</div>
-                </div>
 
-                <div className="pull-right text-right warning">
-                    <Button
-                        color="info"
-                        style={styles.btn}
-                        onClick={this.handleChange}
-                    >
-                        Edit
-                    </Button>
+                <div className="col-8 col-md-auto bg-warning">
+                    <div className="pull-left  mr-auto">
+                        <span className="h4 text-info text-left ml-2">
+                            {this.props.entry.name}
+                        </span>
+                        <div>{this.props.entry.description}</div>
+                        <div>{tagsJsx}</div>
+                    </div>
+
+                    <div className="pull-right text-right warning">
+                        <Button
+                            color="info"
+                            style={styles.btn}
+                            onClick={this.handleChange}
+                        >
+                            Edit
+                        </Button>
+                    </div>
                 </div>
             </div>
         );
