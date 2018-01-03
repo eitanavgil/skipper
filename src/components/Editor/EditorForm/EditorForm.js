@@ -20,17 +20,16 @@ class EditorForm extends Component {
         this.sampleEnd = this.sampleEnd.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.saveSkipper = this.saveSkipper.bind(this);
+        this.preview = this.preview.bind(this);
 
-        this.state = {
-            text: "Skip Intro",
-            start: 0,
-            end: 0,
-            time: null
-        };
+        this.state = {};
     }
 
     closeEditor() {
         this.props.onClose();
+    }
+    preview() {
+        this.props.onPreview();
     }
     saveSkipper() {
         let o = this.state;
@@ -68,6 +67,10 @@ class EditorForm extends Component {
     }
 
     componentWillReceiveProps(props) {
+        if (!this.props.skipper) {
+            return;
+        }
+
         if (
             props &&
             props.hasOwnProperty("skipper") &&
@@ -81,6 +84,11 @@ class EditorForm extends Component {
                 end: props.skipper.endTime,
                 time: o.timeToDisplay ? o.timeToDisplay : null
             };
+
+            this.endVal.value = obj.end;
+            this.startVal.value = obj.start;
+            this.skipperText.value = obj.text;
+            this.textInputDisplayFor.value = obj.time;
             this.setState(obj);
         }
     }
@@ -119,37 +127,58 @@ class EditorForm extends Component {
         let ugc = window.ugc ? "" : "hideMe";
         let showStart = this.state.start > 0 ? "" : "hideMe";
         let showEnd = this.state.end > 0 ? "" : "hideMe";
+        let hasSkipper = this.props.skipper  ? "" : "hideMe";
+
+        let stf = "";
+        let sto = "";
+        if (this.state.start) {
+            var date = new Date(null);
+            date.setSeconds(this.state.start);
+            stf = date.toISOString().substr(11, 8);
+        }
+        if (this.state.end) {
+            var date2 = new Date(null);
+            date2.setSeconds(this.state.end);
+            sto = date2.toISOString().substr(11, 8);
+        }
+
         return (
-            <div className="container mt-3">
+            <div className={hasSkipper+" container mt-3"}>
                 <div className="row">
                     <div className="col-6">
-                        <div className="row">
+                        <div className="row pl-2">
                             <div className="form-group col-6 pl-0 ">
-                                <label
-                                    className="h5 float-left"
-                                    htmlFor="editorSkipperText"
-                                >
-                                    Skip From:
-                                </label>
-                                <br />
-                                <input
-                                    className="timers-input"
-                                    onChange={this.handleChange}
-                                    ref={input => {
-                                        this.startVal = input;
-                                    }}
-                                    type={"number"}
-                                    defaultValue={this.state.start}
-                                />
-
-                                <Button
-                                    className="ml-2"
-                                    outline
-                                    color="secondary"
-                                    onClick={this.sampleStart}
-                                >
-                                    <ArrowDownIcon />
-                                </Button>
+                                <div className="row pl-2">
+                                    <label
+                                        className="h5 float-left"
+                                        htmlFor="editorSkipperText"
+                                    >
+                                        Skip From: {stf}
+                                    </label>
+                                </div>
+                                <div className="container pl-0 pr-0 text-left">
+                                    <div className="row">
+                                        <Button
+                                            className="ml-2 mt-2 mb-2 btn-sm text-black "
+                                            color="secondary"
+                                            onClick={this.sampleStart}
+                                        >
+                                            <ArrowDownIcon className="arrow-down" />{" "}
+                                            Sample Video
+                                        </Button>
+                                    </div>
+                                    <div className="row pl-2">
+                                        <input
+                                            className="timers-input"
+                                            onChange={this.handleChange}
+                                            ref={input => {
+                                                this.startVal = input;
+                                            }}
+                                            type={"number"}
+                                            defaultValue={this.state.start}
+                                        />
+                                    </div>
+                                </div>
                                 <div
                                     className={
                                         "row text-center thumbHolder " +
@@ -166,30 +195,37 @@ class EditorForm extends Component {
                             </div>
 
                             <div className="form-group col-6 pl-0">
-                                <label
-                                    className="h5 float-left"
-                                    htmlFor="editorSkipperText"
-                                >
-                                    Skip To:
-                                </label>
-                                <br />
-                                <input
-                                    className="timers-input"
-                                    onChange={this.handleChange}
-                                    ref={input => {
-                                        this.endVal = input;
-                                    }}
-                                    type={"number"}
-                                    defaultValue={this.state.end}
-                                />
-                                <Button
-                                    className="ml-2"
-                                    outline
-                                    color="secondary"
-                                    onClick={this.sampleEnd}
-                                >
-                                    <ArrowDownIcon />
-                                </Button>
+                                <div className="row pl-2">
+                                    <label
+                                        className="h5 float-left"
+                                        htmlFor="editorSkipperText"
+                                    >
+                                        Skip To: {sto}
+                                    </label>
+                                </div>
+                                <div className="container pl-0 pr-0 text-left">
+                                    <div className="row">
+                                        <Button
+                                            className="ml-2 mt-2 mb-2 btn-sm text-black "
+                                            color="secondary"
+                                            onClick={this.sampleEnd}
+                                        >
+                                            <ArrowDownIcon className="arrow-down" />{" "}
+                                            Sample Video
+                                        </Button>
+                                    </div>
+                                    <div className="row pl-2">
+                                        <input
+                                            className="timers-input"
+                                            onChange={this.handleChange}
+                                            ref={input => {
+                                                this.endVal = input;
+                                            }}
+                                            type={"number"}
+                                            defaultValue={this.state.end}
+                                        />
+                                    </div>
+                                </div>
                                 <div
                                     className={
                                         "row text-center thumbHolder " + showEnd
@@ -206,7 +242,7 @@ class EditorForm extends Component {
                         </div>
                     </div>
                     <div className="col-6 row pl-4">
-                        <div className="form-group ">
+                        <div className="form-group col-9 ">
                             <label
                                 className="float-left"
                                 htmlFor="editorSkipperText"
@@ -227,14 +263,14 @@ class EditorForm extends Component {
                             />
                         </div>
 
-                        <div className="form-group ">
+                        <div className="form-group col-9 ">
                             <label htmlFor="editorSkipperDisplayFor">
                                 How Long to display this skipper:
                             </label>
                             <input
                                 className="form-control"
                                 onChange={this.handleChange}
-                                type="Number"
+                                type="text"
                                 id="editorSkipperDisplayFor"
                                 ref={input => {
                                     this.textInputDisplayFor = input;
@@ -249,15 +285,22 @@ class EditorForm extends Component {
                 <br />
                 <div className="row text-right float-right pr-3">
                     <Button
+                        className="float-left"
+                        color="info"
+                        onClick={this.preview}
+                    >
+                        Preview
+                    </Button>
+                    <Button
                         className={"float-right " + ugc}
                         color="primary"
                         onClick={this.saveSkipper}
                     >
                         Save
                     </Button>
-                    <div className="pl-2" />
+
                     <Button
-                        className={"float-right " + ugc}
+                        className={"float-right5 " + ugc}
                         color="primary"
                         onClick={this.saveSkipper}
                     >
@@ -274,7 +317,7 @@ class EditorForm extends Component {
                     <div className="pl-2" />
                     <Button
                         className="float-right"
-                        color="danger"
+                        color="success"
                         onClick={this.closeEditor}
                     >
                         Done

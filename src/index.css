@@ -106,13 +106,23 @@ html {
     border-bottom: 1px solid #EEEEEE;
 }
 .timers-input{
-    width: 120px;
+    width: 124px;
 }
 .editor{
     margin-top: 100px !important;
     padding-top: 10px !important;
 }
 .thumbHolder{
-    margin-left: 35px !important;
+    margin-left: -5px !important;
     padding-top: 10px;
+}
+.transp{
+    background-color: #0077FF33;
+    background-blend-mode: lighten ;
+}
+.text-black{
+    color: #000 !important;
+}
+.arrow-down{
+    margin-bottom: -3px;
 }

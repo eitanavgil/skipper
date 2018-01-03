@@ -25,13 +25,13 @@ class Skipper extends Component {
     componentWillReceiveProps(nextProps) {}
 
     handleEdit(event: Event) {
-        this.props.onEdit(this.props.skipper)
+        this.props.onEdit(this.props.skipper);
     }
     handleDelete(event: Event) {
         window.deleteCP = null;
         this.deleteCP = setInterval(() => {
             if (window.deleteCP) {
-                if(this.props.onDeleteCp){
+                if (this.props.onDeleteCp) {
                     this.props.onDeleteCp();
                 }
                 clearInterval(this.deleteCP);
@@ -39,10 +39,9 @@ class Skipper extends Component {
         }, 30);
 
         let client = window.kClient;
-        window.KalturaCuePointService.deleteAction(this.props.skipper.id).execute(client, function(
-            success,
-            results
-        ) {
+        window.KalturaCuePointService.deleteAction(
+            this.props.skipper.id
+        ).execute(client, function(success, results) {
             if (!success || (results && results.code && results.message)) {
                 console.log("Kaltura Error", success, results);
             } else {
@@ -63,19 +62,32 @@ class Skipper extends Component {
     render() {
         let shouldHide = this.state.isHovering ? "" : "hideMe";
         let highlighted = this.state.isHovering ? "hoverme" : "";
-        let obj = JSON.parse(this.props.skipper.partnerData)
+        let selected = "";
+        if (this.props.skipper && this.props.skipper.selected) {
+            selected = "transp";
+        }
+        let obj = JSON.parse(this.props.skipper.partnerData);
         let text = obj.text ? obj.text : "Skip Intro";
         // let timeToDisplay = obj.hasOwnProperty("timeToDisplay") ? obj.timeToDisplay.text : 0;
         return (
             <div
-                className={"row pt-1 pb-1 ml-0 mr-0 skipper border-top-1 " + highlighted}
+                className={
+                    selected +
+                    " row pt-1 pb-1 ml-0 mr-0 skipper border-top-1 " +
+                    highlighted
+                }
                 onMouseEnter={this.handleMouseHover}
                 onMouseLeave={this.handleMouseHover}
             >
-
-                <div className="col-3"><small>{text}</small></div>
-                <div className="col-3"><small>{this.props.skipper.startTime}</small></div>
-                <div className="col-3"><small>{this.props.skipper.endTime}</small></div>
+                <div className="col-3">
+                    <small>{text}</small>
+                </div>
+                <div className="col-3">
+                    <small>{this.props.skipper.startTime}</small>
+                </div>
+                <div className="col-3">
+                    <small>{this.props.skipper.endTime}</small>
+                </div>
                 <div className={"col-3 " + shouldHide}>
                     <Button
                         outline
@@ -88,18 +100,18 @@ class Skipper extends Component {
                     <Button
                         outline
                         color="white"
-                        className="btn-sm"
+                        className="btn-sm ml-1"
                         onClick={this.handleDelete}
                     >
                         <TrashcanIcon />
                     </Button>
                     {/*<Button*/}
-                        {/*outline*/}
-                        {/*color="white"*/}
-                        {/*className="btn-sm"*/}
-                        {/*onClick={this.handlePreview}*/}
+                    {/*outline*/}
+                    {/*color="white"*/}
+                    {/*className="btn-sm"*/}
+                    {/*onClick={this.handlePreview}*/}
                     {/*>*/}
-                        {/*<DeviceCameraIcon />*/}
+                    {/*<DeviceCameraIcon />*/}
                     {/*</Button>*/}
                 </div>
             </div>

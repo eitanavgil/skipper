@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
-import { PlusIcon, ArrowDownIcon } from "react-octicons";
 import Skipper from "../Skipper/Skipper";
 import EditorForm from "./EditorForm/EditorForm";
 
@@ -17,7 +16,7 @@ class Editor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentSkipper: {},
+            currentSkipper: null,
             skippers: null
         };
         this.preview = this.preview.bind(this);
@@ -31,13 +30,21 @@ class Editor extends Component {
         this.listCuePoints();
     }
     addSkipper() {
+        let skp = {
+            selected: true,
+            startTime: 0,
+            endTime: 0,
+            partnerData: '{"text":""}'
+        };
+
+        let currentSkippers = this.state.skippers.length
+            ? this.state.skippers
+            : [];
+        currentSkippers.push(skp);
+
         this.setState({
-            skippers: this.state.skippers,
-            currentSkipper: {
-                startTime: 0,
-                endTime: 0,
-                partnerData: '{"text":""}'
-            }
+            skippers: currentSkippers,
+            currentSkipper: skp
         });
     }
     handleClose() {
@@ -56,9 +63,15 @@ class Editor extends Component {
         this.listCuePoints();
     }
     onEditCp(cp) {
+        let skp = {
+            selected: true,
+            startTime: cp.startTime,
+            endTime: cp.endTime,
+            partnerData: cp.partnerData
+        };
         this.setState({
             skippers: this.state.skippers,
-            currentSkipper: cp
+            currentSkipper: skp
         });
     }
 
@@ -66,7 +79,6 @@ class Editor extends Component {
         if (!this.props.entry) {
             return;
         }
-
         if (!window.kClient) {
             this.hasClient = setInterval(() => {
                 clearInterval(this.hasClient);
@@ -123,7 +135,9 @@ class Editor extends Component {
                 cache_st: 1514902380,
                 entry_id: nextProps.entry.id
             });
-            this.listCuePoints();
+            setTimeout(() => {
+                this.listCuePoints();
+            }, 500);
         }
     }
     componentDidMount() {
@@ -159,7 +173,7 @@ class Editor extends Component {
             <div className={"container col-12 semi-trans editor pl-5 pb-3 "}>
                 <div className="row h4">
                     Editing ״{" "}
-                    {this.props.entry ? this.props.entry.name : "EMPTY"}״{" "}
+                    {this.props.entry ? this.props.entry.name : "EMPTY"}{" "}״
                 </div>
 
                 <div className="row ">
@@ -188,7 +202,7 @@ class Editor extends Component {
                             {skippers}
                             <Button
                                 outline
-                                className="btn-sm float-right"
+                                className="btn-sm float-right mt-3"
                                 onClick={this.addSkipper}
                             >
                                 Add Skipper
@@ -203,6 +217,7 @@ class Editor extends Component {
                                     ? this.state.currentSkipper
                                     : null
                             }
+                            onPreview={this.preview}
                             onClose={this.handleClose}
                             entry={this.props.entry}
                             onRefresh={this.listCuePoints}
