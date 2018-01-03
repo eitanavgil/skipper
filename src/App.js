@@ -23,7 +23,7 @@ class App extends Component {
         return (
             <div className="App bg row h-100 w-100 m-0">
                 <div className="col-md-2" />
-                <div className="col-md-8 ">
+                <div className="col-8 ">
                     <Login loginSuccess={this.loginSuccess} show={showLogin} />
                     <EntriesList show={showEntries} />
                 </div>

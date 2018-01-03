@@ -108,3 +108,7 @@ html {
 .timers-input{
     width: 120px;
 }
+.editor{
+    margin-top: 100px !important;
+    padding-top: 10px !important;
+}

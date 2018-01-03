@@ -114,14 +114,14 @@ class EditorForm extends Component {
 
     render() {
         return (
-            <div className="container mt-5">
+            <div className="container mt-3">
                 <div className="row">
                     <div className="col-6">
 
                         <div className="row">
                             <div className="form-group ">
                                 <label
-                                    className="h4"
+                                    className="h4 float-left"
                                     htmlFor="editorSkipperText"
                                 >
                                     Skip From:
@@ -148,7 +148,7 @@ class EditorForm extends Component {
                             </div>
                             <div className="form-group ml-5 ">
                                 <label
-                                    className="h4"
+                                    className="h4 float-left"
                                     htmlFor="editorSkipperText"
                                 >
                                     Skip To:
@@ -177,7 +177,7 @@ class EditorForm extends Component {
 
                         <div className="row">
                             <div className="form-group ">
-                                <label htmlFor="editorSkipperText">
+                                <label className="float-left" htmlFor="editorSkipperText">
                                     Skippers' Text:
                                 </label>
                                 <input
@@ -215,6 +215,7 @@ class EditorForm extends Component {
                         </div>
                     </div>
                 </div>
+                <br/>
                 <div className="row">
                     <Button outline color="primary" onClick={this.saveSkipper}>
                         Save
@@ -224,8 +225,12 @@ class EditorForm extends Component {
                         Save And Close Skipper
                     </Button>
                     <div className="pl-2" />
-                    <Button outline color="warning" onClick={this.saveSkipper}>
+                    <Button outline color="info" onClick={this.saveSkipper}>
                         Suggest a Skipper
+                    </Button>
+                    <div className="pl-2" />
+                    <Button className="float-right" outline color="danger" onClick={this.closeEditor}>
+                        Close
                     </Button>
                 </div>
             </div>

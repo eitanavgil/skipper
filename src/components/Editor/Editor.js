@@ -50,7 +50,12 @@ class Editor extends Component {
     }
 
     listCuePoints() {
-        if (!window.kClient) {
+
+        if(!this.props.entry){
+            return
+        }
+
+        if (!window.kClient ) {
             this.hasClient = setInterval(() => {
                 clearInterval(this.hasClient);
                 this.listCuePoints();
@@ -94,23 +99,28 @@ class Editor extends Component {
         return 0;
     }
 
-    componentWillReceiveProps(nextProps) {}
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.entry){
+            window.kWidget.embed({
+                targetId: "kaltura_player_1514902380",
+                wid: "_27017",
+                uiconf_id: 40888641,
+                flashvars: {
+                    streamerType: "auto"
+                },
+                cache_st: 1514902380,
+                entry_id: nextProps.entry.id
+            });
+        }
+
+    }
     componentDidMount() {
         window.kWidget.addReadyCallback(function(playerId) {
             // Ready
             window.kdp = document.getElementById(playerId);
         });
 
-        window.kWidget.embed({
-            targetId: "kaltura_player_1514902380",
-            wid: "_27017",
-            uiconf_id: 40888641,
-            flashvars: {
-                streamerType: "auto"
-            },
-            cache_st: 1514902380,
-            entry_id: this.props.entry.id
-        });
+
     }
     handleChange(event: Event) {}
 
@@ -129,29 +139,28 @@ class Editor extends Component {
             ));
         }
         return (
-            <div className="container col-12 mt-5">
-                <div className="row">
-                    {this.props.entry ? this.props.entry.name : "EMPTY"}
+            <div className="container col-12 semi-trans editor pl-5 pb-3">
+                <div className="row h4">
+                    Editing ״ {this.props.entry ? this.props.entry.name : "EMPTY"}״
                 </div>
 
                 <div className="row ">
-                    <div className="row col-12">
+                    <div className="row col-12 pl-0">
                         <div className="col-6 ">
                             <div
                                 id="kaltura_player_1514902380"
                                 ref={div => {
                                     this.player = div;
                                 }}
-                                style={{ width: "560px", height: "395px" }}
+                                style={{ width: "450px", height: "290px" }}
                             />
                         </div>
                         <div className="col-6">
-                            <h2>Skippers</h2>
+                            <div className="h4">Skippers</div>
                             <div className={"row " + showDeader}>
                                 <div className="col-3">Skipper Text</div>
                                 <div className="col-3">Skipper Time</div>
                                 <div className="col-3">Skip To</div>
-                                <div className="col-3" />
                             </div>
                             {skippers}
                             <Button outline>
@@ -171,9 +180,6 @@ class Editor extends Component {
                         getCurrentTime={this.getCurrentTime}
                     />
                 </div>
-                <Button outline color="primary" onClick={this.preview}>
-                    External Preview
-                </Button>
             </div>
         );
     }
