@@ -126,11 +126,12 @@ class EditorForm extends Component {
                         <div className="row">
                             <div className="form-group col-6 pl-0 ">
                                 <label
-                                    className="h4 float-left"
+                                    className="h5 float-left"
                                     htmlFor="editorSkipperText"
                                 >
                                     Skip From:
                                 </label>
+                                <br />
                                 <input
                                     className="timers-input"
                                     onChange={this.handleChange}
@@ -149,7 +150,12 @@ class EditorForm extends Component {
                                 >
                                     <ArrowDownIcon />
                                 </Button>
-                                <div className={"row text-center thumbHolder "+showStart}>
+                                <div
+                                    className={
+                                        "row text-center thumbHolder " +
+                                        showStart
+                                    }
+                                >
                                     <Thumb
                                         entry={this.props.entry}
                                         size={"small"}
@@ -161,11 +167,12 @@ class EditorForm extends Component {
 
                             <div className="form-group col-6 pl-0">
                                 <label
-                                    className="h4 float-left"
+                                    className="h5 float-left"
                                     htmlFor="editorSkipperText"
                                 >
                                     Skip To:
                                 </label>
+                                <br />
                                 <input
                                     className="timers-input"
                                     onChange={this.handleChange}
@@ -183,7 +190,11 @@ class EditorForm extends Component {
                                 >
                                     <ArrowDownIcon />
                                 </Button>
-                                <div className={"row text-center thumbHolder "+showEnd}>
+                                <div
+                                    className={
+                                        "row text-center thumbHolder " + showEnd
+                                    }
+                                >
                                     <Thumb
                                         entry={this.props.entry}
                                         size={"small"}
@@ -258,7 +269,7 @@ class EditorForm extends Component {
                         color="info"
                         onClick={this.saveSkipper}
                     >
-                        Suggest a Skipper
+                        Save
                     </Button>
                     <div className="pl-2" />
                     <Button
@@ -266,7 +277,7 @@ class EditorForm extends Component {
                         color="danger"
                         onClick={this.closeEditor}
                     >
-                        Close
+                        Done
                     </Button>
                 </div>
             </div>

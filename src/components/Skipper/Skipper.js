@@ -49,10 +49,6 @@ class Skipper extends Component {
                 window.deleteCP = true;
             }
         });
-
-
-
-
     }
     handleChange(event: Event) {}
     toggleHoverState(state) {

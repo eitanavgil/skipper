@@ -118,9 +118,11 @@ class EntriesList extends Component {
         return (
             <div className={"entries-list mt-1.5 w-100 h-100" + showMe}>
                 <div className={"w-100 " + displayEditor}>
-                    <Editor entry={this.state.selectedEntry} onClose={this.handleClose} />
+                    <Editor
+                        entry={this.state.selectedEntry}
+                        onClose={this.handleClose}
+                    />
                 </div>
-
                 <div className={"row " + showMe} style={{ height: 50 }}>
                     <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-info">
                         <img
@@ -166,9 +168,9 @@ class EntriesList extends Component {
                     </nav>
                 </div>
 
-                <div className={"container " + displayList}>
-                    <div className="row">
-                        <div className="col ">{entries}</div>
+                <div className={"container h-100 " + displayList}>
+                    <div className="row h-100">
+                        <div className="col h-100 ">{entries}</div>
                     </div>
                 </div>
             </div>

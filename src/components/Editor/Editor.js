@@ -23,11 +23,22 @@ class Editor extends Component {
         this.preview = this.preview.bind(this);
         this.onEditCp = this.onEditCp.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.addSkipper = this.addSkipper.bind(this);
         this.onDeleteCp = this.onDeleteCp.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getCurrentTime = this.getCurrentTime.bind(this);
         this.listCuePoints = this.listCuePoints.bind(this);
         this.listCuePoints();
+    }
+    addSkipper() {
+        this.setState({
+            skippers: this.state.skippers,
+            currentSkipper: {
+                startTime: 0,
+                endTime: 0,
+                partnerData: '{"text":""}'
+            }
+        });
     }
     handleClose() {
         this.props.onClose();
@@ -126,6 +137,13 @@ class Editor extends Component {
     render() {
         let skippers = "";
         let showHeader = "hideMe";
+        let showSkipper = "";
+        if (
+            this.state.currentSkipper &&
+            !this.state.currentSkipper.hasOwnProperty("startTime")
+        ) {
+            showSkipper = "hideMe";
+        }
         if (this.state.skippers && this.state.skippers.length) {
             showHeader = "";
             skippers = this.state.skippers.map((cp, index) => (
@@ -138,10 +156,10 @@ class Editor extends Component {
             ));
         }
         return (
-            <div className="container col-12 semi-trans editor pl-5 pb-3">
+            <div className={"container col-12 semi-trans editor pl-5 pb-3 "}>
                 <div className="row h4">
                     Editing ״{" "}
-                    {this.props.entry ? this.props.entry.name : "EMPTY"}״
+                    {this.props.entry ? this.props.entry.name : "EMPTY"}״{" "}
                 </div>
 
                 <div className="row ">
@@ -156,7 +174,6 @@ class Editor extends Component {
                             />
                         </div>
                         <div className="col-6 pr-0 pl-0">
-                            <div className="h4">Skippers</div>
                             <div className={"row " + showHeader}>
                                 <div className="col-3">
                                     <small>Text</small>
@@ -169,23 +186,29 @@ class Editor extends Component {
                                 </div>
                             </div>
                             {skippers}
-                            <Button outline>
-                                <PlusIcon /> Add New Skipper
+                            <Button
+                                outline
+                                className="btn-sm float-right"
+                                onClick={this.addSkipper}
+                            >
+                                Add Skipper
                             </Button>
                         </div>
                     </div>
-
-                    <EditorForm
-                        skipper={
-                            this.state.currentSkipper
-                                ? this.state.currentSkipper
-                                : null
-                        }
-                        onClose={this.handleClose}
-                        entry={this.props.entry}
-                        onRefresh={this.listCuePoints}
-                        getCurrentTime={this.getCurrentTime}
-                    />
+                    <div className={"pr-3 row " + showSkipper}>
+                        <EditorForm
+                            className="pr-3"
+                            skipper={
+                                this.state.currentSkipper
+                                    ? this.state.currentSkipper
+                                    : null
+                            }
+                            onClose={this.handleClose}
+                            entry={this.props.entry}
+                            onRefresh={this.listCuePoints}
+                            getCurrentTime={this.getCurrentTime}
+                        />
+                    </div>
                 </div>
             </div>
         );
