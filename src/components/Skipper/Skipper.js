@@ -3,7 +3,6 @@ import { Button } from "reactstrap";
 import { PencilIcon, TrashcanIcon, DeviceCameraIcon } from "react-octicons";
 
 const styles = {};
-
 /**
  *
  */

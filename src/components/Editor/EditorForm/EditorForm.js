@@ -23,8 +23,8 @@ class EditorForm extends Component {
 
         this.state = {
             text: "Skip Intro",
-            start: 50,
-            end: 20,
+            start: 0,
+            end: 0,
             time: null
         };
     }
@@ -72,43 +72,52 @@ class EditorForm extends Component {
             props.skipper.hasOwnProperty("startTime")
         ) {
             let o = JSON.parse(props.skipper.partnerData);
-
-            console.log(">>>>> 1", props);
-
             let obj = {
                 text: o.text ? o.text : "",
                 start: props.skipper.startTime,
                 end: props.skipper.endTime,
                 time: o.timeToDisplay ? o.timeToDisplay : null
-            }
-            console.log(">>>>> 2", obj);
-            this.setState(obj)
+            };
+            this.setState(obj);
         }
     }
     sampleEnd() {
-        this.endVal.value = Math.round(this.props.getCurrentTime());
+        debugger;
+        let obj = {
+            text: this.state.text,
+            start: this.state.start,
+            end: Math.round(this.props.getCurrentTime()),
+            time: this.state.time
+        };
+        this.setState(obj);
     }
     sampleStart() {
+        let obj = {
+            text: this.state.text,
+            start: Math.round(this.props.getCurrentTime()),
+            end: this.state.end,
+            time: this.state.time
+        };
+        this.setState(obj);
+
         this.startVal.value = Math.round(this.props.getCurrentTime());
     }
     handleChange(event: Event) {
-
-
-        let obj = {
-            text: this.skipperText.value,
-            start: this.startVal.value,
-            end: this.endVal.value,
-            time: this.textInputDisplayFor.value
-        }
-        this.setState(obj)
+        // let obj = {
+        //     text: this.skipperText.value,
+        //     start: this.startVal.value,
+        //     end: this.endVal.value,
+        //     time: this.textInputDisplayFor.value
+        // };
+        // this.setState(obj);
     }
 
     render() {
-        console.log(">>>>> this.state", this.state);
         return (
-            <div className="container">
+            <div className="container mt-5">
                 <div className="row">
                     <div className="col-6">
+
                         <div className="row">
                             <div className="form-group ">
                                 <label
@@ -117,12 +126,9 @@ class EditorForm extends Component {
                                 >
                                     Skip From:
                                 </label>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="form-group ">
+                                <br />
                                 <input
+                                    className="timers-input"
                                     onChange={this.handleChange}
                                     ref={input => {
                                         this.startVal = input;
@@ -132,9 +138,37 @@ class EditorForm extends Component {
                                 />
 
                                 <Button
+                                    className="ml-2"
                                     outline
                                     color="secondary"
                                     onClick={this.sampleStart}
+                                >
+                                    <ArrowDownIcon />
+                                </Button>
+                            </div>
+                            <div className="form-group ml-5 ">
+                                <label
+                                    className="h4"
+                                    htmlFor="editorSkipperText"
+                                >
+                                    Skip To:
+                                </label>
+                                <br/>
+                                <input
+                                    className="timers-input"
+                                    onChange={this.handleChange}
+                                    ref={input => {
+                                        this.endVal = input;
+                                    }}
+                                    type={"number"}
+                                    defaultValue={this.state.end}
+                                />
+
+                                <Button
+                                    className="ml-2"
+                                    outline
+                                    color="secondary"
+                                    onClick={this.sampleEnd}
                                 >
                                     <ArrowDownIcon />
                                 </Button>
@@ -177,38 +211,6 @@ class EditorForm extends Component {
                                     placeholder="Empty For None"
                                     aria-label="Search"
                                 />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-6 ">
-                        <div className="row">
-                            <div className="form-group ">
-                                <label
-                                    className="h4"
-                                    htmlFor="editorSkipperText"
-                                >
-                                    Skip To:
-                                </label>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="form-group ">
-                                <input
-                                    onChange={this.handleChange}
-                                    ref={input => {
-                                        this.endVal = input;
-                                    }}
-                                    type={"number"}
-                                    defaultValue={this.state.end}
-                                />
-
-                                <Button
-                                    outline
-                                    color="secondary"
-                                    onClick={this.sampleEnd}
-                                >
-                                    <ArrowDownIcon />
-                                </Button>
                             </div>
                         </div>
                     </div>

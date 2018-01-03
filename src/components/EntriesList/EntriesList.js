@@ -142,7 +142,7 @@ class EntriesList extends Component {
 
 
                 <div className="row " style={{ height: 50 }}>
-                    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-success">
+                    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-info">
                         <img
                             src={"./skipper.png"}
                             style={{ height: 50 }}

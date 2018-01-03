@@ -20,12 +20,23 @@ class Editor extends Component {
             currentSkipper: {},
             skippers: null
         };
+        this.preview = this.preview.bind(this);
         this.onEditCp = this.onEditCp.bind(this);
         this.onDeleteCp = this.onDeleteCp.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getCurrentTime = this.getCurrentTime.bind(this);
         this.listCuePoints = this.listCuePoints.bind(this);
         this.listCuePoints();
+    }
+    preview() {
+        let URL =
+            "https://www.kaltura.com/index.php/extwidget/preview/partner_id/27017/uiconf_id/29667911/entry_id/" +
+            this.props.entry.id +
+            "/embed/dynamic?flashvars[ks]=" +
+            window.ks;
+
+            window.open(URL,"_blank")
+
     }
     onDeleteCp() {
         this.listCuePoints();
@@ -118,7 +129,7 @@ class Editor extends Component {
             ));
         }
         return (
-            <div className="container col-12">
+            <div className="container col-12 mt-5">
                 <div className="row">
                     {this.props.entry ? this.props.entry.name : "EMPTY"}
                 </div>
@@ -160,8 +171,8 @@ class Editor extends Component {
                         getCurrentTime={this.getCurrentTime}
                     />
                 </div>
-                <Button outline color="primary" onClick={this.listCuePoints}>
-                    LIST
+                <Button outline color="primary" onClick={this.preview}>
+                    External Preview
                 </Button>
             </div>
         );
