@@ -28,7 +28,15 @@ class Thumb extends Component {
         this.state = { thumbUrl: thumbUrl };
         this.handleChange = this.handleChange.bind(this);
     }
-    componentWillReceiveProps(nextProps) {}
+    componentWillReceiveProps(props) {
+        let thumbUrl;
+        if (props.entry) {
+            thumbUrl = props.entry.thumbnailUrl;
+        } else {
+            thumbUrl = this.props.thumbUrl;
+        }
+        this.setState({ thumbUrl: thumbUrl });
+    }
 
     handleChange(event: Event) {}
 
@@ -41,7 +49,7 @@ class Thumb extends Component {
                     break;
                 case "small":
                 default:
-                    imageUrl += "/width/100/height/80";
+                    imageUrl += "/width/120/height/70";
                     break;
                 case "medium":
                     imageUrl += "/width/180/height/102";
@@ -76,7 +84,7 @@ class Thumb extends Component {
         imageUrl += this.props.rel_height
             ? "/rel_height/" + this.props.rel_height
             : "";
-        return <img src={imageUrl} />;
+        return <img src={imageUrl} alt={"Thumbnail"} />;
     }
 }
 

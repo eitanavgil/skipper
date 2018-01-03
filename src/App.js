@@ -14,7 +14,8 @@ class App extends Component {
     logout() {
         this.setState({ state: "login" });
     }
-    loginSuccess() {
+    loginSuccess(ugcMode) {
+        window.ugc = ugcMode === "on";
         this.setState({ state: "list" });
     }
     render() {

@@ -23,6 +23,7 @@
     padding-bottom: 30px;
 }
 .skipper{
+    cursor: pointer;
     z-index: 208908809;
     height: 16px;
     margin-top: 10px;

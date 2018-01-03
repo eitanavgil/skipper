@@ -79,6 +79,7 @@ class Login extends Component {
         this.ksInterval = setInterval(() => {
             if (window.ks !== undefined && this.state.ks !== window.ks) {
                 if (this.props.loginSuccess) {
+                    window.ugc = true
                     this.props.loginSuccess();
                 }
                 clearInterval(this.ksInterval);
@@ -148,7 +149,23 @@ class Login extends Component {
                                     Submit
                                 </Button>
                                 <br />
+                                <label className="custom-control custom-checkbox text-left float-left">
+                                    <input
+                                        ref={input => {
+                                            this.ugcMode = input;
+                                        }}
+                                        type="checkbox"
+                                        defaultValue={true}
+                                        onChange={null}
+                                        className="custom-control-input"
+                                    />
+                                    <span className="custom-control-indicator" />
+                                    <span className="custom-control-description">
+                                        User Mode
+                                    </span>
+                                </label>
                                 <br />
+
                             </form>
                         </div>
                     </div>

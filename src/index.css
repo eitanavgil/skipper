@@ -92,7 +92,7 @@ html {
 }
 
 .hoverme{
-    background-color: #FFDDCC;
+    background-color: #FFF !important;
 }
 .editIcon{
     padding: 10px;
@@ -111,4 +111,8 @@ html {
 .editor{
     margin-top: 100px !important;
     padding-top: 10px !important;
+}
+.thumbHolder{
+    margin-left: 35px !important;
+    padding-top: 10px;
 }

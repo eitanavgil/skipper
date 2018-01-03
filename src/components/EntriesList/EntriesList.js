@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Entry from "./Entry/Entry";
-import { Button } from "reactstrap";
 import Editor from "../Editor/Editor";
 
 // const styles = { modal: { width: "100%" } };
@@ -21,19 +20,26 @@ class EntriesList extends Component {
             show: this.props.show,
             searchValue: "",
             selectedEntry: null,
-            modal: false,
             entries: []
         };
+        this.handleClose = this.handleClose.bind(this);
         this.toggle = this.toggle.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
     }
 
+    handleClose() {
+        this.setState({
+            show: this.state.show,
+            entries: this.state.entries,
+            selectedEntry: null,
+            searchValue: this.state.searchValue
+        });
+    }
     toggle() {
         this.setState({
             show: this.props.show,
             entries: window.entries,
-            modal: false,
             selectedEntry: null,
             searchValue: this.state.searchValue
         });
@@ -48,7 +54,6 @@ class EntriesList extends Component {
                 this.setState({
                     show: this.props.show,
                     entries: window.entries,
-                    modal: false,
                     selectedEntry: null,
                     searchValue: this.state.searchValue
                 });
@@ -57,7 +62,7 @@ class EntriesList extends Component {
         }, 100);
 
         // var filter = new KalturaMediaEntryFilter();
-        var filter = { freeText: this.textInput.value , orderBy: "-createdAt" };
+        var filter = { freeText: this.textInput.value, orderBy: "-createdAt" };
         var pager = null;
         let client = window.kClient;
         window.KalturaMediaService.listAction(filter, pager).execute(
@@ -76,7 +81,6 @@ class EntriesList extends Component {
         this.setState({
             show: this.props.show,
             entries: [],
-            modal: false,
             selectedEntry: null,
             searchValue: this.state.searchValue
         });
@@ -90,7 +94,6 @@ class EntriesList extends Component {
             show: this.state.show,
             entries: this.state.entries,
             searchValue: this.state.searchValue,
-            modal: !this.state.modal,
             selectedEntry: entryId
         });
     }
@@ -113,12 +116,12 @@ class EntriesList extends Component {
         let displayEditor = this.state.selectedEntry ? "" : "hideMe";
         let displayList = this.state.selectedEntry ? "hideMe" : "";
         return (
-            <div className={"entries-list mt-1.5 w-100 " + showMe}>
-                <div className={"w-100 "+displayEditor}>
-                    <Editor entry={this.state.selectedEntry} />
+            <div className={"entries-list mt-1.5 w-100 h-100" + showMe}>
+                <div className={"w-100 " + displayEditor}>
+                    <Editor entry={this.state.selectedEntry} onClose={this.handleClose} />
                 </div>
 
-                <div className={"row "} style={{ height: 50 }}>
+                <div className={"row " + showMe} style={{ height: 50 }}>
                     <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-info">
                         <img
                             src={"./skipper.png"}
@@ -163,7 +166,7 @@ class EntriesList extends Component {
                     </nav>
                 </div>
 
-                <div className={"container "+displayList}>
+                <div className={"container " + displayList}>
                     <div className="row">
                         <div className="col ">{entries}</div>
                     </div>

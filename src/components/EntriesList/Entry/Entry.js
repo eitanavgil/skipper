@@ -72,22 +72,24 @@ class Entry extends Component {
                     </div>
 
                     <div className="col-9  ">
-                        <div className="pull-left  mr-auto">
-                            <span className="h4 text-info text-left ml-2">
-                                {this.props.entry.name}
-                            </span>
-                            <div>{this.props.entry.description}</div>
-                            <div>{tagsJsx}</div>
-                        </div>
+                        <div className="row">
+                            <div className="col-11 float-left text-left">
+                                <span className="h4 text-info text-left">
+                                    {this.props.entry.name}
+                                </span>
+                                <div className="text-left">{this.props.entry.description}</div>
+                                <div>{tagsJsx}</div>
+                            </div>
 
-                        <div className="pull-right text-right warning">
-                            <Button
-                                color="info"
-                                style={styles.btn}
-                                onClick={this.handleChange}
-                            >
-                                Edit
-                            </Button>
+                            <div className="col-1 float-right text-right warning">
+                                <Button
+                                    color="info"
+                                    style={styles.btn}
+                                    onClick={this.handleChange}
+                                >
+                                    Edit
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
-import { PencilIcon, TrashcanIcon, DeviceCameraIcon } from "react-octicons";
+import { PencilIcon, TrashcanIcon } from "react-octicons";
 
-const styles = {};
 /**
  *
  */
@@ -70,16 +69,17 @@ class Skipper extends Component {
         let highlighted = this.state.isHovering ? "hoverme" : "";
         let obj = JSON.parse(this.props.skipper.partnerData)
         let text = obj.text ? obj.text : "Skip Intro";
-        let timeToDisplay = obj.hasOwnProperty("timeToDisplay") ? obj.timeToDisplay.text : 0;
+        // let timeToDisplay = obj.hasOwnProperty("timeToDisplay") ? obj.timeToDisplay.text : 0;
         return (
             <div
-                className={"row pt-1 pb-1 skipper" + highlighted}
+                className={"row pt-1 pb-1 ml-0 mr-0 skipper border-top-1 " + highlighted}
                 onMouseEnter={this.handleMouseHover}
                 onMouseLeave={this.handleMouseHover}
             >
-                <div className="col-3">{text}</div>
-                <div className="col-3">{this.props.skipper.startTime}</div>
-                <div className="col-3">{this.props.skipper.endTime}</div>
+
+                <div className="col-3"><small>{text}</small></div>
+                <div className="col-3"><small>{this.props.skipper.startTime}</small></div>
+                <div className="col-3"><small>{this.props.skipper.endTime}</small></div>
                 <div className={"col-3 " + shouldHide}>
                     <Button
                         outline

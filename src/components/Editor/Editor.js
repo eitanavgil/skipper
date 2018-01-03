@@ -22,11 +22,15 @@ class Editor extends Component {
         };
         this.preview = this.preview.bind(this);
         this.onEditCp = this.onEditCp.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.onDeleteCp = this.onDeleteCp.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.getCurrentTime = this.getCurrentTime.bind(this);
         this.listCuePoints = this.listCuePoints.bind(this);
         this.listCuePoints();
+    }
+    handleClose() {
+        this.props.onClose();
     }
     preview() {
         let URL =
@@ -35,14 +39,12 @@ class Editor extends Component {
             "/embed/dynamic?flashvars[ks]=" +
             window.ks;
 
-            window.open(URL,"_blank")
-
+        window.open(URL, "_blank");
     }
     onDeleteCp() {
         this.listCuePoints();
     }
     onEditCp(cp) {
-        console.log(">>>>> REC", cp);
         this.setState({
             skippers: this.state.skippers,
             currentSkipper: cp
@@ -50,12 +52,11 @@ class Editor extends Component {
     }
 
     listCuePoints() {
-
-        if(!this.props.entry){
-            return
+        if (!this.props.entry) {
+            return;
         }
 
-        if (!window.kClient ) {
+        if (!window.kClient) {
             this.hasClient = setInterval(() => {
                 clearInterval(this.hasClient);
                 this.listCuePoints();
@@ -100,7 +101,7 @@ class Editor extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.entry){
+        if (nextProps.entry) {
             window.kWidget.embed({
                 targetId: "kaltura_player_1514902380",
                 wid: "_27017",
@@ -111,24 +112,22 @@ class Editor extends Component {
                 cache_st: 1514902380,
                 entry_id: nextProps.entry.id
             });
+            this.listCuePoints();
         }
-
     }
     componentDidMount() {
         window.kWidget.addReadyCallback(function(playerId) {
             // Ready
             window.kdp = document.getElementById(playerId);
         });
-
-
     }
     handleChange(event: Event) {}
 
     render() {
         let skippers = "";
-        let showDeader = "hideMe";
+        let showHeader = "hideMe";
         if (this.state.skippers && this.state.skippers.length) {
-            showDeader = "";
+            showHeader = "";
             skippers = this.state.skippers.map((cp, index) => (
                 <Skipper
                     key={index}
@@ -141,7 +140,8 @@ class Editor extends Component {
         return (
             <div className="container col-12 semi-trans editor pl-5 pb-3">
                 <div className="row h4">
-                    Editing ״ {this.props.entry ? this.props.entry.name : "EMPTY"}״
+                    Editing ״{" "}
+                    {this.props.entry ? this.props.entry.name : "EMPTY"}״
                 </div>
 
                 <div className="row ">
@@ -152,15 +152,21 @@ class Editor extends Component {
                                 ref={div => {
                                     this.player = div;
                                 }}
-                                style={{ width: "450px", height: "290px" }}
+                                style={{ width: "400px", height: "270px" }}
                             />
                         </div>
-                        <div className="col-6">
+                        <div className="col-6 pr-0 pl-0">
                             <div className="h4">Skippers</div>
-                            <div className={"row " + showDeader}>
-                                <div className="col-3">Skipper Text</div>
-                                <div className="col-3">Skipper Time</div>
-                                <div className="col-3">Skip To</div>
+                            <div className={"row " + showHeader}>
+                                <div className="col-3">
+                                    <small>Text</small>
+                                </div>
+                                <div className="col-3">
+                                    <small>From</small>
+                                </div>
+                                <div className="col-3">
+                                    <small>To</small>
+                                </div>
                             </div>
                             {skippers}
                             <Button outline>
@@ -175,6 +181,7 @@ class Editor extends Component {
                                 ? this.state.currentSkipper
                                 : null
                         }
+                        onClose={this.handleClose}
                         entry={this.props.entry}
                         onRefresh={this.listCuePoints}
                         getCurrentTime={this.getCurrentTime}
